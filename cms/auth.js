@@ -1,5 +1,5 @@
 
-var RECIPE_PATH = RECIPES_PATH + '/cakephp2-cms';
+var RECIPE_PATH = RECIPES_PATH + '/cakephp2/cms';
 var TEMPLATES_PATH = RECIPE_PATH + '/templates/auth';
 var ASSETS_PATH = RECIPE_PATH + '/assets';
 var CMS_PATH = OUTPUT_PATH + '/Plugin/Cms';

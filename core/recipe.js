@@ -1,5 +1,5 @@
 
-var RECIPE_PATH = RECIPES_PATH + '/cakephp2-core';
+var RECIPE_PATH = RECIPES_PATH + '/cakephp2/core';
 var TEMPLATES_PATH = RECIPE_PATH + '/templates';
 
 var fs = require('fs-extra');

@@ -1,5 +1,5 @@
 
-var RECIPE_PATH = RECIPES_PATH + '/cakephp2-api';
+var RECIPE_PATH = RECIPES_PATH + '/cakephp2/api';
 var TEMPLATES_PATH = RECIPE_PATH + '/templates';
 var API_PATH = OUTPUT_PATH + '/Plugin/Api';
 
