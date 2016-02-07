@@ -17,9 +17,16 @@ module.exports = {
     
     cook: function(config, json, callback) {
         
-        console.info('[INFO] cakephp2-cms()');
+        console.info('[INFO] cakephp2.cms');
         
         async.series([
+            function(callback) {
+                console.log('[DEBUG] inflating json...');
+                inflate(config, json, function(inflated) {
+                    json = inflated;
+                    callback();
+                });
+            },
             function(callback) {
                 console.log('[DEBUG] initializing Cms Plugin...');
                 init(config, json, callback);
@@ -52,6 +59,37 @@ module.exports = {
     
 };
 
+var inflate = function(config, json, callback) {
+    
+    for( var m in json.models ) {
+        
+        var model = json.models[m];
+        model.title = inflect.titleize(inflect.pluralize(model.name));
+        model.controller = inflect.decapitalize(inflect.pluralize(model.name));
+        
+        console.log(model);
+        
+        for( var f in model.fields ) {
+            var field = model.fields[f];
+            if( field.primaryKey ) {
+                field.control = "hidden";
+                continue;
+            }
+            if( !field.required ) {
+                field.required = false;
+            }
+            if( !field.control ) {
+                field.control = "text";
+            }
+            if( !field.label ) {
+                field.label = inflect.titleize(field.name);
+            }
+        }
+    }
+    
+    callback(json);
+};
+
 var init = function(config, json, callback) {
     async.series([
         function(callback) {
@@ -65,6 +103,7 @@ var init = function(config, json, callback) {
                 CMS_PATH + '/Model',
                 CMS_PATH + '/View',
                 CMS_PATH + '/View/Auth',
+                CMS_PATH + '/View/Dashboard',
                 CMS_PATH + '/View/Elements',
                 CMS_PATH + '/View/Helper',
                 CMS_PATH + '/View/Layouts',
@@ -120,7 +159,10 @@ var cookAppTemplates = function(json, callback) {
         function(callback) {
             var source = TEMPLATES_PATH + '/views/dashboard/home.ctp';
             var dest = CMS_PATH + '/View/Dashboard/home.ctp';
-            fs.copy(source, dest, callback);
+            var params = {
+                models: json.models
+            };
+            burner.template(source, dest, params, callback);
         }
     ], function(error, results) {
         callback(error);

@@ -26,40 +26,45 @@
 		<small><?php echo $this->fetch('subtitle'); ?></small>
 	</h2>
 
-	<?php echo $this->Form->create('{{Model}}', array('data-validation' => 'form-{{models}}')); ?>
+    <form method="post" data-validation="form-{{models}}">
 
-	<input type="hidden" id="id" name="data[{{Model}}][id]" value="<?php echo $proxy['{{Model}}']['id']; ?>" />
+        <input type="hidden" id="{{primaryField.name}}" name="data[{{Model}}][{{primaryField.name}}]" value="<?php echo $proxy['{{Model}}']['{{primaryField.name}}']; ?>" />
 
-	<div class="panel panel-default">
-        
-		<div class="panel-heading">
-			<?php echo __d('cms', '{{Model}} Info'); ?>
-		</div>
-        
-		<div class="panel-body">
-            {{#fields}}
-            <div class="row">
-                <div class="form-group col-md-12">
-                    <label for="{{name}}"><?php echo __d('cms', '{{label}}'); ?></label>
-                    <input type="text" id="{{name}}" name="data[{{Model}}][{{name}}]" class="form-control" value="<?php echo $proxy['{{Model}}']['{{name}}']; ?>" />
+        <div class="panel panel-default">
+
+            <div class="panel-heading">
+                <?php echo __d('cms', '{{Model}} Info'); ?>
+            </div>
+
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        {{#fields}}
+                        <div class="form-group">
+                            <label for="{{name}}"><?php echo __d('cms', '{{label}}'); ?></label>
+                            <input type="text" id="{{name}}" name="data[{{Model}}][{{name}}]" class="form-control" value="<?php echo $proxy['{{Model}}']['{{name}}']; ?>" />
+                        </div>
+                        {{/fields}}
+                    </div>
                 </div>
             </div>
-            {{/fields}}
-		</div>
-        
-        <div class="panel-footer">
-            <div class="row">
-                <div class="form-group col-md-12">
-                    <input type="submit" class="btn btn-primary" value="<?php echo __d('cms', 'Save'); ?>" />
-                    <a href="<?php echo Router::url(array('action' => 'index')); ?>" class="btn btn-default">
-                        <?php echo __d('cms', 'Cancel'); ?>
-                    </a>
+
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-primary" value="<?php echo __d('cms', 'Save'); ?>" />
+                            <a href="<?php echo Router::url(array('action' => 'index')); ?>" class="btn btn-default">
+                                <?php echo __d('cms', 'Cancel'); ?>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
+            
         </div>
-	</div>
 
-	<?php echo $this->Form->end(); ?>
+    </form>
 	
 </div>
 

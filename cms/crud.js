@@ -74,12 +74,22 @@ var cookView = function(view, callback) {
 
 var getControllerVars = function(config) {
     var model = config.name;
+    var fields = [];
+    var primaryField = [];
+    config.fields.forEach(function(field) {
+        if( field.primaryKey ) {
+            primaryField = field;
+            return;
+        }
+        fields.push(field);
+    });
     return {
         name: model,
         Model: model,
         Models: inflect.pluralize(model),
         model: inflect.decapitalize(model),
         models: inflect.decapitalize(inflect.pluralize(model)),
-        fields: config.fields
+        primaryField: primaryField,
+        fields: fields
     };
 };
