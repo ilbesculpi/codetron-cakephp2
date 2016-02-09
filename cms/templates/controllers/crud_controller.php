@@ -2,21 +2,26 @@
 
 App::uses('CmsAppController', 'Cms.Controller');
 
-class {{ Models }}Controller extends CmsAppController {
+class {{ Models }}Controller extends CmsAppController
+{
 	
-	public $uses = array('{{ Model }}');
+	public $uses = ['{{ Model }}'];
 	
-	public function index() {
-		$this->Paginator->settings = array(
-			'{{ Model }}' => array(
+	public $section = '{{ Model }}';
+	
+	public function index()
+	{
+		$this->Paginator->settings = [
+			'{{ Model }}' => [
 				'order' => '{{ Model }}.id ASC',
 				'limit' => 20
-			)
-		);
+			]
+		];
 		$this->set('{{ models }}', $this->Paginator->paginate('{{ Model }}'));
 	}
 
-    public function view($id) {
+    public function view($id)
+	{
         
 		if( !$this->{{ Model }}->exists($id) ) {
 			throw new NotFoundException();
@@ -26,7 +31,8 @@ class {{ Models }}Controller extends CmsAppController {
 		$this->set('{{ model }}', ${{ model }});
 	}
     
-	public function create() {
+	public function create()
+	{
 		
 		if( $this->request->is('post') ) {
 			 
@@ -45,7 +51,8 @@ class {{ Models }}Controller extends CmsAppController {
 		$this->set('proxy', ${{ model }});
 	}
 
-	public function edit($id) {
+	public function edit($id)
+	{
 		
 		if( !$this->{{ Model }}->exists($id) ) {
 			throw new NotFoundException();
@@ -65,7 +72,8 @@ class {{ Models }}Controller extends CmsAppController {
 		$this->set('proxy', ${{ model }});
 	}
 
-	public function delete($id) {
+	public function delete($id)
+	{
 
 		if( !$this->{{ Model }}->exists($id) ) {
 			throw new NotFoundException();

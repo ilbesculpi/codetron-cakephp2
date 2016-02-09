@@ -1,6 +1,7 @@
 
 var RECIPE_PATH = RECIPES_PATH + '/cakephp2/cms';
 var TEMPLATES_PATH = RECIPE_PATH + '/templates/auth';
+var VIEWS_PATH = RECIPE_PATH + '/templates/views/auth';
 var ASSETS_PATH = RECIPE_PATH + '/assets';
 var CMS_PATH = OUTPUT_PATH + '/Plugin/Cms';
 
@@ -52,12 +53,12 @@ var cookModels = function(json, callback) {
 };
 
 var cookViews = function(json, callback) {
-    var views = ['forgot_password', 'login', 'profile', 'register', 'reset_password', 'welcome'];
+    var views = ['forgot', 'login', 'profile', 'register', 'reset', 'welcome'];
     async.each(views, cookAuthView, callback);
 };
 
 var cookAuthView = function(viewName, callback) {
-    var source = TEMPLATES_PATH + '/views/' + viewName + '.ctp';
+    var source = VIEWS_PATH + '/' + viewName + '.ctp';
     var dest = CMS_PATH + '/View/Auth/' + viewName + '.ctp';
     var viewVars = {
         CMS: auth.config.appName || "CMS"

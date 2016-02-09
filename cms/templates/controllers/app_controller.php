@@ -2,36 +2,43 @@
 
 App::uses('AppController', 'Controller');
 
-class CmsAppController extends AppController {
+class CmsAppController extends AppController
+{
 	
-	public $components = array(
-		'Auth' => array(
-			'loginRedirect'  => array('plugin' => 'cms', 'controller' => 'dashboard', 'action' => 'home'),
-			'logoutRedirect' => array('plugin' => 'cms', 'controller' => 'auth', 'action' => 'login'),
-			'loginAction'    => array('plugin' => 'cms', 'controller' => 'auth', 'action' => 'login'),
-			'authenticate' => array(
-				'Form' => array(
-					'fields' => array('username' => 'email'),
+	public $components = [
+		'Auth' => [
+			'loginRedirect'  => ['plugin' => 'cms', 'controller' => 'dashboard', 'action' => 'home'],
+			'logoutRedirect' => ['plugin' => 'cms', 'controller' => 'auth', 'action' => 'login'],
+			'loginAction'    => ['plugin' => 'cms', 'controller' => 'auth', 'action' => 'login'],
+			'authenticate' => [
+				'Form' => [
+					'fields' => ['username' => 'email'],
 					'userModel' => 'Cms.Admin'
-				)
-			),
-			'authorize' => array('Controller')
-		),
+				]
+			],
+			'authorize' => ['Controller']
+		],
         'Paginator'
-	);
-	
-	public $helpers = array('Cms.Theme');
+	];
 	
 	public $section = 'Dashboard';
 	
 	
-	public function beforeRender() {
+	public function beforeRender()
+	{
 		parent::beforeRender();
 		$this->set('section', $this->section);
+		$this->set('CMS', Configure::read('Cms.Name'));
 	}
 	
-    
-	public function renderJSON($result, $root = 'result') {
+	public function beforeFilter()
+	{
+		parent::beforeFilter();
+		Configure::load('Cms.settings');
+	}
+	
+	public function renderJSON($result, $root = 'result')
+	{
 		$this->autoLayout = false;
 		$this->autoRender = false;
 		if( $root ) {
@@ -41,17 +48,22 @@ class CmsAppController extends AppController {
 		$this->response->body(json_encode($result));
 	}
 	
-	public function setFlash($message, $type = 'info') {
-		if( $type === 'error' ) $type = 'danger';
-		$this->Session->setFlash( $message, 'flash', array('type' => $type) );
+	public function setFlash($message, $type = 'info')
+	{
+		if( $type === 'error' ) {
+			$type = 'danger';
+		}
+		$this->Session->setFlash( $message, 'flash', ['type' => $type] );
 	}
 	
-	public function isAuthorized($user) {
+	public function isAuthorized($user)
+	{
 		// default strategy is to allow access to any logged user
 		return $user['status'] == 1 ? true : false;
 	}
 	
-	public function setSection($section) {
+	public function setSection($section)
+	{
 		$this->section = $section;
 		$this->set('section', $section);
 	}

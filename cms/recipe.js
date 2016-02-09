@@ -33,7 +33,7 @@ module.exports = {
             },
             function(callback) {
                 console.log('[DEBUG] generating main templates...');
-                cookAppTemplates(json, callback);
+                cookAppTemplates(config, json, callback);
             },
             function(callback) {
                 console.log('[DEBUG] generating auth templates...');
@@ -66,8 +66,6 @@ var inflate = function(config, json, callback) {
         var model = json.models[m];
         model.title = inflect.titleize(inflect.pluralize(model.name));
         model.controller = inflect.decapitalize(inflect.pluralize(model.name));
-        
-        console.log(model);
         
         for( var f in model.fields ) {
             var field = model.fields[f];
@@ -115,7 +113,7 @@ var init = function(config, json, callback) {
     });
 };
 
-var cookAppTemplates = function(json, callback) {
+var cookAppTemplates = function(config, json, callback) {
     async.parallel([
         function(callback) {
             var source = TEMPLATES_PATH + '/controllers/app_controller.php';
@@ -139,6 +137,14 @@ var cookAppTemplates = function(json, callback) {
             var source = TEMPLATES_PATH + '/config/routes.php';
             var dest = CMS_PATH + '/Config/routes.php';
             var params = {};
+            burner.template(source, dest, params, callback);
+        },
+		function(callback) {
+            var source = TEMPLATES_PATH + '/config/settings.php';
+            var dest = CMS_PATH + '/Config/settings.php';
+            var params = {
+				CMS: config.name
+			};
             burner.template(source, dest, params, callback);
         },
         function(callback) {

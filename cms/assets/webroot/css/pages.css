@@ -1,0 +1,51 @@
+/*
+ * Pages: Login, Register, Welcome
+ * -------------------------------
+ */
+.auth-logo {
+  font-size: 35px;
+  text-align: center;
+  margin-bottom: 25px;
+  font-weight: 300;
+}
+
+.auth-logo a {
+  color: #444;
+}
+
+.auth-page {
+  background: #d2d6de;
+}
+
+.auth-box {
+  width: 360px;
+  margin: 7% auto;
+}
+
+@media (max-width: 768px) {
+  .auth-box {
+    width: 90%;
+    margin-top: 20px;
+  }
+}
+
+.auth-box-body {
+  background: #fff;
+  padding: 20px;
+  border-top: 0;
+  color: #666;
+}
+
+.auth-box-body .form-control-feedback {
+  color: #777;
+}
+
+.auth-box-msg {
+  margin: 0;
+  text-align: center;
+  padding: 0 20px 20px 20px;
+}
+
+.social-auth-links {
+  margin: 10px 0;
+}

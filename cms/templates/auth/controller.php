@@ -8,15 +8,25 @@ class AuthController extends CmsAppController {
 	
 	public $uses = array('Cms.Admin');
 	
-	public function beforeFilter() {
+	public function beforeFilter()
+	{
 		parent::beforeFilter();
-		$allowed = array('login', 'register', 'welcome','forgot_password','reset_password');
+		$allowed = ['login', 'register', 'welcome', 'forgot', 'reset'];
 		$this->Auth->allow( $allowed );
 	}
 	
-	public function login() {
+	public function login()
+	{
 
 		if( $this->request->is('post') ) {
+			
+			$credentials = [
+				'email' => $this->request->data['email'],
+				'password' => $this->request->data['password']
+			];
+			
+			$this->request->data['Admin'] = $credentials;
+			
 			if( $this->Auth->login() ) {
 				if($this->Auth->user('status') == Admin::STATUS_ACTIVE) {
 					$this->Admin->login( $this->Auth->user() );
@@ -36,17 +46,19 @@ class AuthController extends CmsAppController {
 		$this->set('admin', $admin);
 	}
 	
-	public function logout() {
+	public function logout()
+	{
 		$this->redirect( $this->Auth->logout() );
 	}
 	
-	public function register() {
+	public function register()
+	{
 		if( $this->request->is('post') ) {
 			$this->Admin->create();
-			$this->request->data['Admin']['status'] = Admin::STATUS_INACTIVE;
+			$this->request->data['status'] = Admin::STATUS_INACTIVE;
 			if( $this->Admin->save($this->request->data) ) {
 				$this->setFlash(__d('cms', 'Your account has been created.'), 'success');
-				return $this->redirect('welcome');
+				return $this->redirect(['action' => 'welcome']);
 			}
 			else {
 				$this->setFlash(__d('cms', 'An error occurred, please try again.'), 'error');
@@ -54,17 +66,20 @@ class AuthController extends CmsAppController {
 		}
 	}
 	
-	public function welcome() {
+	public function welcome()
+	{
 		
 	}
 
-	public function profile(){
+	public function profile()
+	{
 		$this->layout = 'default';
 		$admin = $this->Admin->proxy($this->request->data);
 		$this->set('admin', $admin);
 	} 
 
-	public function forgot_password() {
+	public function forgot()
+	{
 		if( $this->request->is('post') ) {
 			$email = $this->request->data['email'];
 			$result = $this->Admin->forgotPassword($email);
@@ -78,7 +93,8 @@ class AuthController extends CmsAppController {
 		}
 	}
 
-	public function reset_password() {
+	public function reset()
+	{
 		
 		$user_id = $this->request->query['id'];
 		$user = $this->Admin->findById($user_id);

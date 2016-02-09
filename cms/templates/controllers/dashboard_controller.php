@@ -2,9 +2,13 @@
 
 App::uses('CmsAppController', 'Cms.Controller');
 
-class DashboardController extends CmsAppController {
+class DashboardController extends CmsAppController
+{
 	
-	public function home() {
+	public $section = 'Dashboard';
+	
+	public function home()
+	{
 		
 	}
 	
