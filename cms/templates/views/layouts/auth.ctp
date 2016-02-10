@@ -18,6 +18,7 @@
 		<script src="/cms/vendor/html5shiv/dist/html5shiv.min.js"></script>
 		<script src="/cms/vendor/respond-minmax/dest/respond.min.js"></script>
 		<![endif]-->
+		<?php echo $this->fetch('css'); ?>
 	</head>
 	<body class="hold-transition auth-page <?php echo $this->fetch('csspage'); ?>">
 		
@@ -32,7 +33,7 @@
 			<?php echo $this->fetch('content'); ?>
 		</div>
 		
-		<script src="/cms/vendor/admin-lte/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+		<script src="/cms/vendor/jquery/dist/jquery.min.js"></script>
 		<script src="/cms/vendor/admin-lte/bootstrap/js/bootstrap.min.js"></script>
 		<script src="/cms/vendor/admin-lte/plugins/iCheck/icheck.min.js"></script>
 		<script>

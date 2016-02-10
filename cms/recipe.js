@@ -143,7 +143,7 @@ var cookAppTemplates = function(config, json, callback) {
             var source = TEMPLATES_PATH + '/config/settings.php';
             var dest = CMS_PATH + '/Config/settings.php';
             var params = {
-				CMS: config.name
+				CMS: config.appName
 			};
             burner.template(source, dest, params, callback);
         },
