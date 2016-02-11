@@ -22,7 +22,7 @@
 		<![endif]-->
 		<?php echo $this->fetch('css'); ?>
 	</head>
-	<body class="hold-transition skin-blue sidebar-mini">
+	<body class="hold-transition skin-black sidebar-mini <?php echo $this->fetch('csspage'); ?>">
 		
 		<div class="wrapper">
 		

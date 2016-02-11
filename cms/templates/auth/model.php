@@ -10,11 +10,13 @@ class Admin extends CmsAppModel {
 	const STATUS_ACTIVE = 1;
 	const STATUS_BLOCKED = -1;
     const ROLE_ADMIN = 'admin';
+	const DEFAULT_AVATAR = '/cms/images/admin/avatar.jpg';
     
 	public $useTable = 'administrators';
     private $seed = 'aec19c041bbc1254ef89dee';
 	
-	public function beforeSave($options = array()) {
+	public function beforeSave($options = array())
+	{
 		// hash password
 		if( isset($this->data[$this->alias]['password']) ) {
 			$this->data[$this->alias]['password'] = AuthComponent::password($this->data[$this->alias]['password']);
@@ -22,13 +24,15 @@ class Admin extends CmsAppModel {
         return parent::beforeSave($options);
     }
 	
-	public function login($admin) {
+	public function login($admin)
+	{
 		$this->set('id', $admin['id']);
 		$this->set('last_login', date('Y-m-d H:i:s'));
 		$this->save();
 	}
 
-	public function forgotPassword($emailto) {
+	public function forgotPassword($emailto)
+	{
 		
 		$user = $this->findByEmail($emailto);
 		
@@ -58,7 +62,8 @@ class Admin extends CmsAppModel {
 		return true;
 	}
 
-	private function getResetPasswordConfirmationLink($user) {
+	private function getResetPasswordConfirmationLink($user)
+	{
 		$ch = sha1($this->seed . ':' . $user['Admin']['id']);
 		$url = Router::url(array(
 			'controller' => 'auth', 
@@ -71,7 +76,8 @@ class Admin extends CmsAppModel {
 		return $url;
 	}
 
-	public function resetPassword($user, $password, $ch) {
+	public function resetPassword($user, $password, $ch)
+	{
 		if( $this->checkResetPasswordLink($user, $ch) ) {
 			$data = array(
 				'id' => $user['Admin']['id'],
@@ -82,7 +88,8 @@ class Admin extends CmsAppModel {
 		return false;
 	}
 	
-	public function checkResetPasswordLink($user, $ch) {
+	public function checkResetPasswordLink($user, $ch)
+	{
 		$cho = sha1($this->seed . ':' . $user['Admin']['id']);
 		return $ch === $cho;
 	}

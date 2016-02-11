@@ -114,7 +114,7 @@ var init = function(config, json, callback) {
 };
 
 var cookAppTemplates = function(config, json, callback) {
-    async.parallel([
+    async.series([
         function(callback) {
             var source = TEMPLATES_PATH + '/controllers/app_controller.php';
             var dest = CMS_PATH + '/Controller/CmsAppController.php';
@@ -152,14 +152,17 @@ var cookAppTemplates = function(config, json, callback) {
             var dest = CMS_PATH + '/View/Elements';
             fs.copy(source, dest, callback);
         },
+		function(callback) {
+            var source = TEMPLATES_PATH + '/views/elements/sidebar.ctp';
+            var dest = CMS_PATH + '/View/Elements/sidebar.ctp';
+            var params = {
+                models: json.models
+            };
+            burner.template(source, dest, params, callback);
+        },
         function(callback) {
             var source = TEMPLATES_PATH + '/views/layouts';
             var dest = CMS_PATH + '/View/Layouts';
-            fs.copy(source, dest, callback);
-        },
-        function(callback) {
-            var source = TEMPLATES_PATH + '/views/helpers/theme_helper.php';
-            var dest = CMS_PATH + '/View/Helper/ThemeHelper.php';
             fs.copy(source, dest, callback);
         },
         function(callback) {

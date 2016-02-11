@@ -1,65 +1,73 @@
 <?php 
-	$navigation = array(
-		array(
-			'icon' => 'fa fa-dashboard',
-			'url' => Router::url(['controller' => 'dashboard', 'action' => 'home']),
-			'text' => __d('cms', 'Dashboard')
-		),
-		array(
-			'icon' => 'fa fa-cog',
-			'url' => Router::url(['action' => 'index']),
-            'text' => __d('cms', '{{Models}}')
-		),
-		array(
-            'text' => ${{model}}['{{Model}}']['name']
-		)
-	);
-	
-	$dateFormat = '%d/%m/%Y %l:%M %p';
+	$this->set('title', '{{ Models }}');
+	$this->set('csspage', '{{ models }}');
 ?>
 
-<?php echo $this->Theme->breadcrumbs($navigation); ?>
+<div class="content-wrapper">
 
-<div class="{{ models }}">
-
-	<h2 class="page-header">
-		<i class="fa fa-cog"></i>
-        <?php echo __d('cms', '{{Models}}'); ?>
-        <small><?php echo h(${{model}}['{{Model}}']['name']); ?></small>
-	</h2>
-
-	<div class="panel panel-default">
-        
-		<div class="panel-heading clearfix">
-			<h3 class="panel-title pull-left"><?php echo h(${{model}}['{{Model}}']['name']); ?></h3>
-			<div class="btn-group pull-right">
-                <a href="<?php echo $this->Html->url(['action' => 'edit', ${{model}}['{{Model}}']['id']]); ?>" 
-				   class="btn btn-default btn-sm">
-					<i class="fa fa-edit"></i>
-					<?php echo __d('cms', 'Edit'); ?>
+	<section class="content-header">
+		<h1>
+			<?php echo __d('cms', '{{ Models }}'); ?>
+			<small><?php echo __d('cms', 'View'); ?></small>
+		</h1>
+		<ol class="breadcrumb">
+			<li>
+				<a href="<?php echo Router::url(['controller' => 'dashboard', 'action' => 'home']); ?>">
+					<i class="fa fa-dashboard"></i>
+				<?php echo __d('cms', 'Dashboard'); ?>
 				</a>
-				<a href="<?php echo $this->Html->url(['action' => 'delete', ${{model}}['{{Model}}']['id']]); ?>" 
-				   class="btn btn-default btn-sm" data-confirm="<?php echo __d('cms', 'Are you sure you want to delete this {{Model}}?'); ?>">
-					<i class="fa fa-trash"></i>
-					<?php echo __d('cms', 'Delete'); ?>
+			</li>
+			<li>
+				<a href="<?php echo Router::url(['action' => 'index']); ?>">
+					<i class="fa fa-cog"></i>
+					<?php echo __d('cms', '{{ Models }}'); ?>
 				</a>
+			</li>
+			<li class="active">
+				<?php echo __d('cms', 'View'); ?>
+			</li>
+		</ol>
+    </section>
+	
+	<section class="content">
+		
+		<div class="box box-default">
+			
+			<div class="box-header with-border">
+				<h3 class="box-title">
+					<i class="fa fa-cog"></i>
+					<?php echo __d('cms', '{{ Models }}'); ?>
+				</h3>
+				<div class="pull-right box-tools">
+					<button type="button" class="btn btn-default btn-xs">
+						<i class="fa fa-cog"></i>
+					</button>
+				</div>
 			</div>
-		</div>
-        
-		<div class="panel-body">
 			
-            <h3 class="page-header"><?php echo __d('cms', 'Info'); ?></h3>
-            
-            {{#fields}}
-            <?php if(${{model}}['{{Model}}']['{{name}}']): ?>
-            <div class="form-group">
-                <label><?php echo __d('cms', '{{label}}'); ?>:</label>
-                <div><?php echo ${{model}}['{{Model}}']['{{name}}']; ?></div>
-            </div>
-            <?php endif; ?>
-            {{/fields}}
+			<div class="box-body">
+				
+				<div class="row">
+					
+					<div class="col-sm-12">
+						
+						{{#fields}}
+						<?php if(${{model}}['{{Model}}']['{{name}}']): ?>
+						<div class="form-group">
+							<label><?php echo __d('cms', '{{label}}'); ?>:</label>
+							<div><?php echo ${{model}}['{{Model}}']['{{name}}']; ?></div>
+						</div>
+						<?php endif; ?>
+						{{/fields}}
+						
+					</div>
+					
+				</div>
+				
+			</div>
 			
 		</div>
-	</div>
+		
+	</section>
 	
 </div>

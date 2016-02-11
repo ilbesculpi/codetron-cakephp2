@@ -29,6 +29,7 @@ class CmsAppController extends AppController
 		parent::beforeRender();
 		$this->set('section', $this->section);
 		$this->set('CMS', Configure::read('Cms.Name'));
+		$this->set('admin', $this->Auth->user());
 	}
 	
 	public function beforeFilter()

@@ -55,6 +55,7 @@ class AuthController extends CmsAppController {
 	{
 		if( $this->request->is('post') ) {
 			$this->Admin->create();
+			$this->request->data['picture'] = Admin::DEFAULT_AVATAR;
 			$this->request->data['status'] = Admin::STATUS_INACTIVE;
 			if( $this->Admin->save($this->request->data) ) {
 				$this->setFlash(__d('cms', 'Your account has been created.'), 'success');
